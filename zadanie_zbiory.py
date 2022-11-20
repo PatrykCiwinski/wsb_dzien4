@@ -76,5 +76,5 @@ damski2={element for element in damski.intersection(chorzy_rok.intersection(krzy
 
 print(damski2)
 
-meski2={element for element in meski.difference(chorzy_rok.difference(centrum))}
+meski2={element for element in meski.intersection(chorzy_rok.difference(centrum))}
 print(meski2)
