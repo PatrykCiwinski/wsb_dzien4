@@ -1,4 +1,5 @@
 def wypisz_menu():
+    print()
     print('1. Dodaj rzecz do zrobienia')
     print('2. Oznacz rzecz jako zrobioną')
     print('3. Pokaż rzeczy do zrobienia i zrobione')
@@ -18,41 +19,48 @@ def pobierz_opcje_do_zrobienia():
         if 1 <= liczba <= 6:
             return liczba
         print('To musi być liczba od 1 do 6')
-
-
 class ListaRzeczyDoZrobienia:
     def __init__(self):
         self.lista_rzeczy_do_zrobienia = []
         self.lista_rzeczy_zrobionych = []
     def dodaj_rzecz_do_zrobienia(self):
         self.lista_rzeczy_do_zrobienia.append(input('Podaj rzecz do zrobienia: '))
+    def oznacz_rzecz_jako_zrobiona(self):
+        indeks_zrobionej_rzeczy = self._pobierz_indeks_rzeczy_do_zrobienia()
+        self.lista_rzeczy_zrobionych.append(self.lista_rzeczy_do_zrobienia[indeks_zrobionej_rzeczy])
+        del self.lista_rzeczy_do_zrobienia[indeks_zrobionej_rzeczy]
     def pokaz_rzeczy_do_zrobienia(self):
-        print('Do zrobienia jest: ', self.lista_rzeczy_do_zrobienia)
-        print('Zrobione jest: ', self.lista_rzeczy_zrobionych)
-    def oznacz_rzecz_jako_zrobioną(self):
+        print()
+        print('Do zrobienia jest: ')
+        for indeks, rzeczy_do_zrobienia in enumerate(self.lista_rzeczy_do_zrobienia):
+            print(f'\t\t{indeks} [ ] {rzeczy_do_zrobienia}')
+        print()
+        print('Zrobione jest: ')
+        for indeks, rzeczy_do_zrobienia in enumerate(self.lista_rzeczy_zrobionych):
+            print(f'\t\t{indeks} [x] {rzeczy_do_zrobienia}')
+    def usun_rzecz_do_zrobienia(self):
+        indeks_rzeczy_do_usuniecia = self._pobierz_indeks_rzeczy_do_zrobienia()
+        del self.lista_rzeczy_do_zrobienia[indeks_rzeczy_do_usuniecia]
+    def ustaw_rzecz_na_poczatek(self):
+        indeks_zrobionej_rzeczy = self._pobierz_indeks_rzeczy_do_zrobienia()
+        element_na_poczatek = self.lista_rzeczy_do_zrobienia[indeks_zrobionej_rzeczy]
+        del self.lista_rzeczy_do_zrobienia[indeks_zrobionej_rzeczy]
+        self.lista_rzeczy_do_zrobienia.insert(0, element_na_poczatek)
+    def _pobierz_indeks_rzeczy_do_zrobienia(self):
         while True:
+            print()
+            for indeks, rzeczy_do_zrobienia in enumerate(self.lista_rzeczy_do_zrobienia):
+                print(f'\t\t{indeks} [ ] {rzeczy_do_zrobienia}')
+            print()
             try:
-                index_zrobionej=int(input('co zostało zrobione: '))
+                indeks_rzeczy = int(input('Który indeks: '))
             except ValueError:
                 print('to musi być liczba')
                 continue
-            self.lista_rzeczy_zrobionych(self.lista_rzeczy_zrobionych[index_zrobionej])
-            del self.lista_rzeczy_do_zrobienia[index_zrobionej]
-            return
-    def usun_z_listy(self):
-        index_do_usuniecia = int(input('co zostało zrobione: '))
-        print('co chcesz usunąć? ', self.lista_rzeczy_do_zrobienia)
-        del self.lista_rzeczy_do_zrobienia[index_do_usuniecia]
-
-    def ustaw_rzecz_na_poczatek(self):
-        print(self.lista_rzeczy_do_zrobienia)
-        index_do_przesunięcia = int(input('co chcesz przesunąć: '))-1
-        element_na_poczatek=self.lista_rzeczy_do_zrobienia[index_do_przesunięcia]
-        del self.lista_rzeczy_do_zrobienia[index_do_przesunięcia]
-        self.lista_rzeczy_do_zrobienia.insert(0, element_na_poczatek)
-        return
-
-
+            if indeks_rzeczy >= 0 and indeks_rzeczy < len(self.lista_rzeczy_do_zrobienia):
+                return indeks_rzeczy
+            else:
+                print('podana liczba jest spoza przedzialu')
 def petla_glowna_programu():
     instancje_rzeczy_do_zrobienia = ListaRzeczyDoZrobienia()
     while True:
@@ -61,13 +69,11 @@ def petla_glowna_programu():
         if opcja == 1:
             instancje_rzeczy_do_zrobienia.dodaj_rzecz_do_zrobienia()
         elif opcja == 2:
-            instancje_rzeczy_do_zrobienia.oznacz_rzecz_jako_zrobioną()
-
+            instancje_rzeczy_do_zrobienia.oznacz_rzecz_jako_zrobiona()
         elif opcja == 3:
-
             instancje_rzeczy_do_zrobienia.pokaz_rzeczy_do_zrobienia()
         elif opcja == 4:
-            instancje_rzeczy_do_zrobienia.usun_z_listy()
+            instancje_rzeczy_do_zrobienia.usun_rzecz_do_zrobienia()
         elif opcja == 5:
             instancje_rzeczy_do_zrobienia.ustaw_rzecz_na_poczatek()
         elif opcja == 6:
